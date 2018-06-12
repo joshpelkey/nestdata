@@ -1,4 +1,5 @@
 # nestdata
+Using python-nest to get and store nest data over time, which is then displayed via highcharts
 
 Don't forget to create virtualenv for this called nestdata, or update the scripts
 Don't forget to pip install python-nest

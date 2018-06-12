@@ -1,0 +1,121 @@
+<!DOCTYPE html>
+<html lang="en">
+	<head>
+		<meta charset="utf-8">
+		<title>nest data</title>
+		<meta name="viewport" content="width=device-width, initial-scale=1.0">
+		<meta name="description" content="">
+		<meta name="author" content="">
+
+		<!-- styles -->
+        <link href="https://stackpath.bootstrapcdn.com/bootstrap/4.1.1/css/bootstrap.min.css" rel="stylesheet">
+
+	</head>
+
+	<body>
+
+        <ul class="nav nav-tabs">
+		  <li class="nav-item">
+			<a class="nav-link active" href="#">3 hours</a>
+		  </li>
+		  <li class="nav-item">
+			<a class="nav-link" href="nest24hr.html">24 hours</a>
+		  </li>
+		  <li class="nav-item">
+			<a class="nav-link" href="nest48hr.html">48 hours</a>
+		  </li>
+		  <li class="nav-item">
+			<a class="nav-link" href="nest1wk.html">1 week</a>
+		  </li>
+		  <li class="nav-item">
+			<a class="nav-link" href="nest1mon.html">1 month</a>
+		  </li>
+		  <li class="nav-item">
+			<a class="nav-link" href="nest3mon.html">3 months</a>
+		  </li>
+		  <li class="nav-item">
+			<a class="nav-link" href="nest1yr.html">1 year</a>
+		  </li>
+		</ul>
+
+        <!-- Temperature of the last 3h -->
+		<div class="container my-5" id="temp-last-3-hours" style="width:100%; height:400px;"></div>
+
+        <hr>
+
+        <!-- Humidity of the last 3h -->
+		<div class="container my-5" id="humidity-last-3-hours" style="width:100%; height:400px;"></div>
+
+        <hr>
+
+        <!-- Fans of the last 3h -->
+		<div class="container my-5" id="fans-last-3-hours" style="width:100%; height:400px;"></div>
+
+        <!-- Bootstrap core JavaScript
+		================================================== -->
+		<!-- Placed at the end of the document so the pages load faster -->
+	 	<script src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.4/jquery.min.js"></script>
+        <link href="https://stackpath.bootstrapcdn.com/bootstrap/4.1.1/js/bootstrap.min.js">
+        <script src="https://code.highcharts.com/highcharts.src.js"></script>
+
+		<script type='text/javascript'>
+			$(document).ready(function() {
+				$.ajax({
+					type: "GET",
+					url: "../xml/nest3h.xml",
+					dataType: "xml",
+					success: function(xml) {
+						var nestseries = []
+
+						//define series
+						$(xml).find("entry").each(function() {
+							var seriesOptions = {
+								name: $(this).text(),
+								data: []
+							};
+							nestseries.push(seriesOptions);
+						});
+
+						//populate with data
+						$(xml).find("row").each(function() {
+							var t = parseInt($(this).find("t").text()) * 1000
+
+							$(this).find("v").each(function(index) {
+								var v = parseFloat($(this).text())
+								v = v || null
+								if (v != null) {
+									nestseries[index].data.push([t, v])
+								};
+							});
+						});
+
+                        chart = new Highcharts.chart('temp-last-3-hours', {
+                            time: {useUTC: false},
+                            xAxis: {type: 'datetime'},
+                            tooltip: {pointFormat: "Value: {point.y:.1f} F"},
+                            title: {text: 'Temperatures of the last 3 hours'},
+                            series: [nestseries[0], nestseries[1]]
+                        });
+
+                        chart = new Highcharts.chart('humidity-last-3-hours', {
+                            time: {useUTC: false},
+                            xAxis: {type: 'datetime'},
+                            tooltip: {pointFormat: "Value: {point.y:.1f}"},
+                            title: {text: 'Humidity of the last 3 hours'},
+                            series: [nestseries[2], nestseries[3]]
+                        });
+
+                        chart = new Highcharts.chart('fans-last-3-hours', {
+                            time: {useUTC: false},
+                            xAxis: {type: 'datetime'},
+                            tooltip: {pointFormat: "Value: {point.y:.0f}"},
+                            title: {text: 'Fans of the last 3 hours'},
+                            series: [nestseries[4], nestseries[5]]
+                        });
+					}
+				})
+			});
+		</script>
+
+	</body>
+</html>
