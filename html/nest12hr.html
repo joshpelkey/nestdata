@@ -22,10 +22,10 @@
 			<a class="nav-link" href="nest6hr.html">6 hours</a>
 		  </li>
 		  <li class="nav-item">
-			<a class="nav-link" href="nest12hr.html">12 hours</a>
+			<a class="nav-link active" href="#">12 hours</a>
 		  </li>
 		  <li class="nav-item">
-			<a class="nav-link active" href="#">24 hours</a>
+			<a class="nav-link" href="nest24hr.html">24 hours</a>
 		  </li>
 		  <li class="nav-item">
 			<a class="nav-link" href="nest48hr.html">48 hours</a>
@@ -44,24 +44,24 @@
 		  </li>
 		</ul>
 
-        <!-- Temperature of the last 24h -->
-		<div class="container my-5" id="temp-last-24-hours" style="width:100%; height:400px;"></div>
+        <!-- Temperature of the last 12h -->
+		<div class="container my-5" id="temp-last-12-hours" style="width:100%; height:400px;"></div>
 
         <hr>
 
-        <!-- Humidity of the last 24h -->
-		<div class="container my-5" id="humidity-last-24-hours" style="width:100%; height:400px;"></div>
+        <!-- Humidity of the last 12h -->
+		<div class="container my-5" id="humidity-last-12-hours" style="width:100%; height:400px;"></div>
 
         <hr>
 
-        <!-- Fans of the last 24h -->
-		<div class="container my-5" id="fans-last-24-hours" style="width:100%; height:400px;"></div>
+        <!-- Fans of the last 12h -->
+		<div class="container my-5" id="fans-last-12-hours" style="width:100%; height:400px;"></div>
 
 		<script type='text/javascript'>
 			$(document).ready(function() {
 				$.ajax({
 					type: "GET",
-					url: "/nest/xml/nest24h.xml",
+					url: "/nest/xml/nest12h.xml",
 					dataType: "xml",
 					success: function(xml) {
 						var nestseries = []
@@ -87,27 +87,27 @@
 							});
 						});
 
-                        chart = new Highcharts.chart('temp-last-24-hours', {
+                        chart = new Highcharts.chart('temp-last-12-hours', {
                             time: {useUTC: false},
                             xAxis: {type: 'datetime'},
                             tooltip: {pointFormat: "Value: {point.y:.1f} F"},
-                            title: {text: 'Temperatures of the last 24 hours (averaged over 15min intervals)'},
+                            title: {text: 'Temperatures of the last 12 hours'},
                             series: [nestseries[0], nestseries[1]]
                         });
 
-                        chart = new Highcharts.chart('humidity-last-24-hours', {
+                        chart = new Highcharts.chart('humidity-last-12-hours', {
                             time: {useUTC: false},
                             xAxis: {type: 'datetime'},
                             tooltip: {pointFormat: "Value: {point.y:.1f}"},
-                            title: {text: 'Humidity of the last 24 hours (averaged over 15min intervals)'},
+                            title: {text: 'Humidity of the last 12 hours'},
                             series: [nestseries[2], nestseries[3]]
                         });
 
-                        chart = new Highcharts.chart('fans-last-24-hours', {
+                        chart = new Highcharts.chart('fans-last-12-hours', {
                             time: {useUTC: false},
                             xAxis: {type: 'datetime'},
                             tooltip: {pointFormat: "Value: {point.y:.0f}"},
-                            title: {text: 'Fans of the last 24 hours (averaged over 15min intervals)'},
+                            title: {text: 'Fans of the last 12 hours'},
                             series: [nestseries[4], nestseries[5]]
                         });
 					}

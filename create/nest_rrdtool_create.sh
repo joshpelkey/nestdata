@@ -3,8 +3,8 @@
 # create an rrd database starting now and having records
 # every 5 min
 
-source /home/joshpelkey/.virtualenvs/nestdata/bin/activate
-cd /home/joshpelkey/code/nestdata/
+source /home/jpelkey/.virtualenvs/nestdata/bin/activate
+cd /home/jpelkey/code/nestdata/
 
 rrdtool create nestdata.rrd \
     --start N --step 300 \

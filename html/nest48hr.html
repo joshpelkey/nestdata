@@ -16,7 +16,10 @@
 
         <ul class="nav nav-tabs">
 		  <li class="nav-item">
-			<a class="nav-link" href="nest3hr.html">3 hours</a>
+			<a class="nav-link" href="nest6hr.html">6 hours</a>
+		  </li>
+		  <li class="nav-item">
+			<a class="nav-link" href="nest12hr.html">12 hours</a>
 		  </li>
 		  <li class="nav-item">
 			<a class="nav-link" href="nest24hr.html">24 hours</a>
@@ -62,7 +65,7 @@
 			$(document).ready(function() {
 				$.ajax({
 					type: "GET",
-					url: "../xml/nest48h.xml",
+					url: "/nest/xml/nest48h.xml",
 					dataType: "xml",
 					success: function(xml) {
 						var nestseries = []
@@ -82,8 +85,7 @@
 
 							$(this).find("v").each(function(index) {
 								var v = parseFloat($(this).text())
-								v = v || null
-								if (v != null) {
+								if (!isNaN(v)) {
 									nestseries[index].data.push([t, v])
 								};
 							});
@@ -93,7 +95,7 @@
                             time: {useUTC: false},
                             xAxis: {type: 'datetime'},
                             tooltip: {pointFormat: "Value: {point.y:.1f} F"},
-                            title: {text: 'Temperatures of the last 48 hours'},
+                            title: {text: 'Temperatures of the last 48 hours (averaged over 30min intervals)'},
                             series: [nestseries[0], nestseries[1]]
                         });
 
@@ -101,7 +103,7 @@
                             time: {useUTC: false},
                             xAxis: {type: 'datetime'},
                             tooltip: {pointFormat: "Value: {point.y:.1f}"},
-                            title: {text: 'Humidity of the last 48 hours'},
+                            title: {text: 'Humidity of the last 48 hours (averaged over 30min intervals)'},
                             series: [nestseries[2], nestseries[3]]
                         });
 
@@ -109,7 +111,7 @@
                             time: {useUTC: false},
                             xAxis: {type: 'datetime'},
                             tooltip: {pointFormat: "Value: {point.y:.0f}"},
-                            title: {text: 'Fans of the last 48 hours'},
+                            title: {text: 'Fans of the last 48 hours (averaged over 30min intervals)'},
                             series: [nestseries[4], nestseries[5]]
                         });
 					}

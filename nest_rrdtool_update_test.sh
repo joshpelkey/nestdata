@@ -29,11 +29,9 @@ else
     downstairs_fan=1
 fi
 
-#echo $upstairs_temp
-#echo $downstairs_temp
-#echo $upstairs_humidity
-#echo $downstairs_humidity
-#echo $upstairs_fan
-#echo $downstairs_fan
-
-/usr/bin/rrdtool update nestdata.rrd N:$upstairs_temp:$downstairs_temp:$upstairs_humidity:$downstairs_humidity:$upstairs_fan:$downstairs_fan
+echo $upstairs_temp
+echo $downstairs_temp
+echo $upstairs_humidity
+echo $downstairs_humidity
+echo $upstairs_fan
+echo $downstairs_fan
